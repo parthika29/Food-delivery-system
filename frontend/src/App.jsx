@@ -25,18 +25,21 @@ import CartPage from "./pages/user/CartPage";
 import CheckOut from "./pages/user/CheckOut";
 import UserProfile from "./pages/user/Profile";
 import OrderConfirmation from "./pages/user/OrderConfirmation";
+import LiveOrderTracking from "./pages/user/LiveOrderTracking";
+import LiveOrderTracking from "./pages/user/LiveOrderTracking";
+import OrderTracking from "./pages/user/OrderTracking";
+
 
 // Other pages
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Navbar from "./pages/Navbar";
 
-
-
 function App() {
   const [cartItems, setCartItems] = useState([]);
   const [orders, setOrders] = useState([]);
 
+  // ---------------- Cart Functions ----------------
   const addToCart = (item) => {
     setCartItems((prev) => {
       const exists = prev.find((i) => i.id === item.id);
@@ -86,7 +89,7 @@ function App() {
     setCartItems([]); // clear cart after checkout
   };
 
-  // Logout function
+  // ---------------- Auth Functions ----------------
   const handleLogout = () => {
     localStorage.removeItem("token"); // remove token
     window.location.href = "/auth/login"; // redirect
@@ -94,27 +97,27 @@ function App() {
 
   return (
     <Router>
-      {/* Pass cartCount and logout handler */}
+      {/* Navbar gets cartCount + logout */}
       <Navbar cartCount={cartItems.length} onLogout={handleLogout} />
 
       <Routes>
-        {/* Auth */}
+        {/* ---------- Auth Routes ---------- */}
         <Route path="/auth/login" element={<Login />} />
         <Route path="/auth/register" element={<Register />} />
 
-        {/* Admin */}
+        {/* ---------- Admin Routes ---------- */}
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
         <Route path="/admin/orders" element={<AdminOrdersManagement />} />
         <Route path="/admin/users" element={<AdminUsersManagement />} />
         <Route path="/admin/menu" element={<AdminMenuManagement />} />
 
-        {/* Chef */}
+        {/* ---------- Chef Routes ---------- */}
         <Route path="/chef/dashboard" element={<ChefDashboard />} />
         <Route path="/chef/menu" element={<ChefMenuUploadForm />} />
         <Route path="/chef/orders" element={<ChefOrdersManagement />} />
         <Route path="/chef/profile" element={<ChefProfile />} />
 
-        {/* User */}
+        {/* ---------- User Routes ---------- */}
         <Route path="/" element={<Home addToCart={addToCart} />} />
         <Route path="/menu" element={<Menu />} />
         <Route
@@ -133,8 +136,11 @@ function App() {
         <Route path="/checkout" element={<CheckOut />} />
         <Route path="/order-confirmation" element={<OrderConfirmation />} />
         <Route path="/profile" element={<UserProfile />} />
+        <Route path="/orders/:id/track" element={<LiveOrderTracking />} />
+        <Route path="/track-order" element={<OrderTracking />} />
 
-        {/* Other */}
+
+        {/* ---------- Other Routes ---------- */}
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
       </Routes>
