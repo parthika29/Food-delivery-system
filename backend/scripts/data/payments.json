@@ -1,0 +1,7 @@
+[
+  { "ref": "payment1", "orderRef": "order1", "userRef": "user1", "amount": 12, "method": "card", "status": "completed", "transactionId": "TXN123456" },
+  { "ref": "payment2", "orderRef": "order2", "userRef": "user2", "amount": 30, "method": "upi", "status": "pending", "transactionId": "TXN654321" },
+  { "ref": "payment3", "orderRef": "order3", "userRef": "user3", "amount": 24, "method": "cash", "status": "completed", "transactionId": "TXN789012" },
+  { "ref": "payment4", "orderRef": "order4", "userRef": "user4", "amount": 18, "method": "card", "status": "completed", "transactionId": "TXN345678" },
+  { "ref": "payment5", "orderRef": "order5", "userRef": "user5", "amount": 20, "method": "upi", "status": "failed", "transactionId": "TXN567890" }
+]

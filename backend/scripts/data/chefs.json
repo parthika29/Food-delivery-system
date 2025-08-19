@@ -1,0 +1,12 @@
+[
+  { "ref": "chef1", "userRef": "chef1", "bio": "Expert in Italian cuisine", "specialties": ["Italian", "Pizza"], "rating": 4.8 },
+  { "ref": "chef2", "userRef": "chef2", "bio": "Master of Indian food", "specialties": ["Indian", "Curry"], "rating": 4.6 },
+  { "ref": "chef3", "userRef": "chef3", "bio": "French pastry chef", "specialties": ["French", "Pastry"], "rating": 4.7 },
+  { "ref": "chef4", "userRef": "chef4", "bio": "BBQ specialist", "specialties": ["BBQ", "Grill"], "rating": 4.5 },
+  { "ref": "chef5", "userRef": "chef5", "bio": "Chinese cuisine expert", "specialties": ["Chinese", "Noodles"], "rating": 4.6 },
+  { "ref": "chef6", "userRef": "chef6", "bio": "Mexican food lover", "specialties": ["Mexican", "Tacos"], "rating": 4.4 },
+  { "ref": "chef7", "userRef": "chef7", "bio": "Healthy food creator", "specialties": ["Salads", "Vegan"], "rating": 4.3 },
+  { "ref": "chef8", "userRef": "chef8", "bio": "Dessert magician", "specialties": ["Dessert", "Cake"], "rating": 4.9 },
+  { "ref": "chef9", "userRef": "chef9", "bio": "Seafood master", "specialties": ["Seafood", "Fish"], "rating": 4.5 },
+  { "ref": "chef10", "userRef": "chef10", "bio": "Middle Eastern flavors", "specialties": ["Middle Eastern", "Falafel"], "rating": 4.6 }
+]

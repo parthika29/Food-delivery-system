@@ -1,0 +1,17 @@
+[
+  { "ref": "user1", "name": "John Doe", "email": "john@example.com", "password": "hashedpassword", "address": "123 Main St", "phone": "1234567890", "role": "user" },
+  { "ref": "user2", "name": "Jane Smith", "email": "jane@example.com", "password": "hashedpassword", "address": "456 Oak St", "phone": "2345678901", "role": "user" },
+  { "ref": "user3", "name": "Mike Brown", "email": "mike@example.com", "password": "hashedpassword", "address": "789 Pine St", "phone": "3456789012", "role": "user" },
+  { "ref": "user4", "name": "Sara Lee", "email": "sara@example.com", "password": "hashedpassword", "address": "321 Maple St", "phone": "4567890123", "role": "user" },
+  { "ref": "user5", "name": "Tom Clark", "email": "tom@example.com", "password": "hashedpassword", "address": "654 Elm St", "phone": "5678901234", "role": "user" },
+  { "ref": "chef1", "name": "Chef Anna", "email": "anna@example.com", "password": "hashedpassword", "address": "1 Chef St", "phone": "1111111111", "role": "chef" },
+  { "ref": "chef2", "name": "Chef Bob", "email": "bob@example.com", "password": "hashedpassword", "address": "2 Chef St", "phone": "2222222222", "role": "chef" },
+  { "ref": "chef3", "name": "Chef Carol", "email": "carol@example.com", "password": "hashedpassword", "address": "3 Chef St", "phone": "3333333333", "role": "chef" },
+  { "ref": "chef4", "name": "Chef Dave", "email": "dave@example.com", "password": "hashedpassword", "address": "4 Chef St", "phone": "4444444444", "role": "chef" },
+  { "ref": "chef5", "name": "Chef Eve", "email": "eve@example.com", "password": "hashedpassword", "address": "5 Chef St", "phone": "5555555555", "role": "chef" },
+  { "ref": "chef6", "name": "Chef Frank", "email": "frank@example.com", "password": "hashedpassword", "address": "6 Chef St", "phone": "6666666666", "role": "chef" },
+  { "ref": "chef7", "name": "Chef Grace", "email": "grace@example.com", "password": "hashedpassword", "address": "7 Chef St", "phone": "7777777777", "role": "chef" },
+  { "ref": "chef8", "name": "Chef Henry", "email": "henry@example.com", "password": "hashedpassword", "address": "8 Chef St", "phone": "8888888888", "role": "chef" },
+  { "ref": "chef9", "name": "Chef Ivy", "email": "ivy@example.com", "password": "hashedpassword", "address": "9 Chef St", "phone": "9999999999", "role": "chef" },
+  { "ref": "chef10", "name": "Chef Jack", "email": "jack@example.com", "password": "hashedpassword", "address": "10 Chef St", "phone": "1010101010", "role": "chef" }
+]

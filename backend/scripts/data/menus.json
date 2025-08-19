@@ -1,0 +1,7 @@
+[
+  { "ref": "menu1", "chefRef": "chef1", "title": "Italian Specials", "description": "Delicious Italian dishes", "items": [ { "name": "Pizza Margherita", "price": 12, "description": "Classic pizza" }, { "name": "Pasta Carbonara", "price": 10, "description": "Creamy pasta" } ], "available": true },
+  { "ref": "menu2", "chefRef": "chef2", "title": "Indian Delights", "description": "Spicy Indian favorites", "items": [ { "name": "Butter Chicken", "price": 15, "description": "Rich and creamy" }, { "name": "Paneer Tikka", "price": 11, "description": "Grilled paneer" } ], "available": true },
+  { "ref": "menu3", "chefRef": "chef3", "title": "French Pastries", "description": "Sweet French treats", "items": [ { "name": "Croissant", "price": 8, "description": "Buttery pastry" }, { "name": "Éclair", "price": 9, "description": "Chocolate filled" } ], "available": true },
+  { "ref": "menu4", "chefRef": "chef4", "title": "BBQ Feast", "description": "Grilled specialties", "items": [ { "name": "BBQ Ribs", "price": 18, "description": "Smoky ribs" }, { "name": "Grilled Chicken", "price": 14, "description": "Juicy chicken" } ], "available": true },
+  { "ref": "menu5", "chefRef": "chef5", "title": "Chinese Noodles", "description": "Noodle varieties", "items": [ { "name": "Chow Mein", "price": 10, "description": "Stir-fried noodles" }, { "name": "Lo Mein", "price": 11, "description": "Soft noodles" } ], "available": true }
+]

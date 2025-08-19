@@ -1,0 +1,7 @@
+[
+  { "ref": "order1", "userRef": "user1", "chefRef": "chef1", "menuRef": "menu1", "items": [ { "name": "Pizza Margherita", "quantity": 1, "price": 12 } ], "total": 12, "status": "pending", "deliveryAddress": "123 Main St" },
+  { "ref": "order2", "userRef": "user2", "chefRef": "chef2", "menuRef": "menu2", "items": [ { "name": "Butter Chicken", "quantity": 2, "price": 30 } ], "total": 30, "status": "accepted", "deliveryAddress": "456 Oak St" },
+  { "ref": "order3", "userRef": "user3", "chefRef": "chef3", "menuRef": "menu3", "items": [ { "name": "Croissant", "quantity": 3, "price": 24 } ], "total": 24, "status": "preparing", "deliveryAddress": "789 Pine St" },
+  { "ref": "order4", "userRef": "user4", "chefRef": "chef4", "menuRef": "menu4", "items": [ { "name": "BBQ Ribs", "quantity": 1, "price": 18 } ], "total": 18, "status": "delivered", "deliveryAddress": "321 Maple St" },
+  { "ref": "order5", "userRef": "user5", "chefRef": "chef5", "menuRef": "menu5", "items": [ { "name": "Chow Mein", "quantity": 2, "price": 20 } ], "total": 20, "status": "cancelled", "deliveryAddress": "654 Elm St" }
+]
