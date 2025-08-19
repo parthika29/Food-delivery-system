@@ -1,38 +1,42 @@
-
 import React, { useEffect, useState } from "react";
-import axios from "../../api/axiosInstance";
+import API from "../../api/axiosinstance"; // axiosInstance import
 import Navbar from "../Navbar";
 import { useNavigate } from "react-router-dom";
 
 const Orders = () => {
   const [orders, setOrders] = useState([]);
-  const userId = "testuser123"; // Hardcoded for testing
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const userId = "testuser123"; // TODO: replace with logged-in userId later
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const res = await axios.get(`/orders/${userId}`);
-        setOrders(res.data);
+        setLoading(true);
+        const res = await API.get(`/orders/${userId}`);
+        setOrders(res.data || []);
       } catch (err) {
         console.error("Failed to fetch orders", err);
-        alert("Failed to fetch orders. Please refresh.");
+        setError("Failed to fetch orders. Please refresh.");
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchOrders();
-  }, []);
+  }, [userId]);
 
   const reorder = async (items) => {
-    if (!items || items.length === 0) {
+    if (!items?.length) {
       alert("No items to reorder.");
       return;
     }
 
     try {
-      await axios.post("/cart/add-multiple", { userId, items });
+      await API.post("/cart/add-multiple", { userId, items });
       alert("Items added to cart for reorder!");
-      navigate("/checkout"); // Redirect to checkout page after reorder
+      navigate("/checkout");
     } catch (err) {
       console.error("Failed to reorder items", err);
       alert("Failed to add items to cart. Try again.");
@@ -43,7 +47,7 @@ const Orders = () => {
     if (!orderId) return;
 
     try {
-      await axios.post("/orders/cancel", { orderId });
+      await API.post("/orders/cancel", { orderId });
       setOrders((prev) =>
         prev.map((order) =>
           order._id === orderId ? { ...order, status: "Cancelled" } : order
@@ -70,11 +74,25 @@ const Orders = () => {
       <div className="max-w-4xl mx-auto p-4">
         <h1 className="text-2xl font-semibold mb-4">Your Orders</h1>
 
-        {orders.length === 0 ? (
+        {/* Loading state */}
+        {loading && (
+          <div className="text-center text-gray-500 py-10">Loading orders...</div>
+        )}
+
+        {/* Error state */}
+        {error && !loading && (
+          <div className="text-center text-red-500 py-10">{error}</div>
+        )}
+
+        {/* No orders */}
+        {!loading && orders.length === 0 && !error && (
           <div className="text-center text-gray-500 py-20">
             No orders yet. Start ordering your favorite meals!
           </div>
-        ) : (
+        )}
+
+        {/* Orders list */}
+        {!loading && orders.length > 0 && (
           <div className="space-y-6">
             {orders.map((order) => (
               <div
@@ -122,7 +140,8 @@ const Orders = () => {
                     <button
                       onClick={() => cancelOrder(order._id)}
                       disabled={
-                        order.status === "Cancelled" || order.status === "Delivered"
+                        order.status === "Cancelled" ||
+                        order.status === "Delivered"
                       }
                       className="text-red-600 border border-red-600 px-3 py-1 rounded hover:bg-red-50 text-sm cursor-pointer disabled:opacity-50"
                     >
