@@ -7,7 +7,7 @@ import Register from "./pages/auth/Register";
 
 // Admin pages
 import AdminDashboard from "./pages/admin/Dashboard";
-import AdminOrdersManagement from "./pages/admin/OrdersManagement";
+import AdminOrdersManagement from "./pages/admin/OrdersManagement"; // ✅ already imported
 import AdminMenuManagement from "./pages/admin/MenuManagement";
 import AdminUsersManagement from "./pages/admin/UsersManagement";
 
@@ -26,9 +26,7 @@ import CheckOut from "./pages/user/CheckOut";
 import UserProfile from "./pages/user/Profile";
 import OrderConfirmation from "./pages/user/OrderConfirmation";
 import LiveOrderTracking from "./pages/user/LiveOrderTracking";
-import LiveOrderTracking from "./pages/user/LiveOrderTracking";
 import OrderTracking from "./pages/user/OrderTracking";
-
 
 // Other pages
 import About from "./pages/About";
@@ -107,7 +105,7 @@ function App() {
 
         {/* ---------- Admin Routes ---------- */}
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
-        <Route path="/admin/orders" element={<AdminOrdersManagement />} />
+        <Route path="/admin/orders" element={<AdminOrdersManagement />} /> {/* ✅ added */}
         <Route path="/admin/users" element={<AdminUsersManagement />} />
         <Route path="/admin/menu" element={<AdminMenuManagement />} />
 
@@ -138,7 +136,6 @@ function App() {
         <Route path="/profile" element={<UserProfile />} />
         <Route path="/orders/:id/track" element={<LiveOrderTracking />} />
         <Route path="/track-order" element={<OrderTracking />} />
-
 
         {/* ---------- Other Routes ---------- */}
         <Route path="/about" element={<About />} />
