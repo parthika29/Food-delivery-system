@@ -15,7 +15,7 @@ const NAV_ITEMS = [
   { name: "Orders", to: "/orders" },
 ];
 
-const Navbar = ({ activeCategory, setActiveCategory, cartCount = 0 }) => {
+const Navbar2 = ({ activeCategory, setActiveCategory, cartCount = 0 }) => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [search, setSearch] = useState("");
   const location = useLocation();
@@ -105,10 +105,10 @@ const Navbar = ({ activeCategory, setActiveCategory, cartCount = 0 }) => {
               </button>
               <button
                 aria-label="User menu"
-                className="flex items-center px-3 py-2 rounded-md hover:bg-gray-100 cursor-pointer"
+                className="flex items-center px-3 py-2 rounded-md  cursor-pointer"
               >
                 <Link to="/profile">
-                  <HiOutlineUserCircle className="w-7 h-7 text-gray-700" />
+                  <div className=" @apply bg-[#243745] text-[10px]  cursor-pointer text-[#e7e3d8] w-[100px]  p-2.5 rounded-[5px] border-2 border-solid border-[#243745] hover:bg-gray-100 hover:text-[#243745]">Login/SignUp</div>
                 </Link>
               </button>
             </div>
@@ -209,4 +209,4 @@ const Navbar = ({ activeCategory, setActiveCategory, cartCount = 0 }) => {
   );
 };
 
-export default Navbar;
+export default Navbar2;
