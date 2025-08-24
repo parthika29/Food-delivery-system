@@ -1,191 +1,382 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-//import { useAuth } from '../../contexts/AuthContext';
-import { useSelector } from 'react-redux';
+import React, { useState } from "react";
 
-const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [userType, setUserType] = useState('customer');
+export default function Login() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [userType, setUserType] = useState("customer");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
-  const { login } = useAuth();
+  const [error, setError] = useState("");
 
-  const user = useSelector(state => state.user.user);
-  const navigate = useNavigate();
-
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    setError('');
+    setError("");
     setLoading(true);
-    try {
-      await login(email, password, userType);
-    } catch (err) {
-      setError('Invalid email or password');
-    } finally {
+
+    setTimeout(() => {
+      if (email && password) {
+        console.log("Login successful");
+      } else {
+        setError("Please fill in all fields");
+      }
       setLoading(false);
-    }
+    }, 1000);
   };
 
-  useEffect(() => {
-    if (user) {
-      if (user.role === 'chef') {
-        if (user.status === 'approved') {
-          navigate('/chef/dashboard');
-        } else {
-          navigate('/chef/profile');
-        }
-      } else if (user.role === 'admin') {
-        navigate('/admin/dashboard');
-      } else {
-        navigate('/');
-      }
-    }
-  }, [user, navigate]);
-
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary-50 via-secondary-50 to-accent-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
-        <div className="text-center">
-          <div className="flex justify-center mb-6">
-            <div className="w-16 h-16 bg-primary-500 rounded-full flex items-center justify-center">
-              <span className="text-white font-bold text-2xl">FD</span>
-            </div>
+    <div style={{
+      minHeight: '100vh',
+      background: 'linear-gradient(135deg, #f0f9ff 0%, #fff7ed 100%)',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: '20px',
+      fontFamily: 'system-ui, -apple-system, sans-serif'
+    }}>
+      <div style={{ maxWidth: '400px', width: '100%' }}>
+        
+        {/* Header */}
+        <div style={{ textAlign: 'center', marginBottom: '32px' }}>
+          <div style={{
+            width: '64px',
+            height: '64px',
+            background: 'linear-gradient(135deg, #f97316 0%, #ea580c 100%)',
+            borderRadius: '12px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            margin: '0 auto 24px',
+            boxShadow: '0 4px 12px rgba(249, 115, 22, 0.3)'
+          }}>
+            <span style={{ fontSize: '24px', color: 'white', fontWeight: 'bold' }}>🔒</span>
           </div>
-          <h2 className="text-3xl font-heading font-bold text-primary-800">
+          <h1 style={{ 
+            fontSize: '28px', 
+            fontWeight: 'bold', 
+            color: '#1f2937', 
+            margin: '0 0 8px 0' 
+          }}>
             Welcome Back
-          </h2>
-          <p className="mt-2 text-gray-600">
-            Sign in to your Food Delivery account
+          </h1>
+          <p style={{ color: '#6b7280', margin: 0 }}>
+            Sign in to your Foodie account
           </p>
         </div>
 
-        <div className="bg-white rounded-lg shadow-lg p-8">
-          <form onSubmit={handleSubmit} className="space-y-6">
-            {error && (
-              <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
-                {error}
-              </div>
-            )}
-
-            {/* User Type Selection */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-3">
-                I am a:
-              </label>
-              <div className="grid grid-cols-2 gap-3">
-                {[
-                  { value: 'customer', label: 'Customer' },
-                  { value: 'chef', label: 'Chef' },
-                ].map((type) => (
-                  <button
-                    key={type.value}
-                    type="button"
-                    onClick={() => setUserType(type.value)}
-                    className={`px-4 py-2 text-sm font-medium rounded-lg border transition-colors ${
-                      userType === type.value
-                        ? 'bg-primary-500 text-white border-primary-500'
-                        : 'bg-gray-50 text-gray-700 border-gray-300 hover:bg-gray-100'
-                    }`}
-                  >
-                    {type.label}
-                  </button>
-                ))}
-              </div>
+        {/* Main Form */}
+        <div style={{
+          backgroundColor: 'white',
+          borderRadius: '12px',
+          padding: '32px',
+          boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+          border: '1px solid #f3f4f6'
+        }}>
+          
+          {/* Error Message */}
+          {error && (
+            <div style={{
+              backgroundColor: '#fef2f2',
+              border: '1px solid #fecaca',
+              color: '#dc2626',
+              padding: '12px 16px',
+              borderRadius: '8px',
+              marginBottom: '24px',
+              fontSize: '14px'
+            }}>
+              {error}
             </div>
+          )}
 
-            {/* Email */}
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                Email Address
-              </label>
-              <input
-                id="email"
-                type="email"
-                value={email}
-                onChange={e => setEmail(e.target.value)}
-                required
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-primary-500 focus:border-primary-500"
-                placeholder="Enter your email"
-              />
-            </div>
-
-            {/* Password */}
-            <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
-                Password
-              </label>
-              <div className="relative">
-                <input
-                  id="password"
-                  type={showPassword ? 'text' : 'password'}
-                  value={password}
-                  onChange={e => setPassword(e.target.value)}
-                  required
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-primary-500 focus:border-primary-500"
-                  placeholder="Enter your password"
-                />
+          {/* User Type Selection */}
+          <div style={{ marginBottom: '24px' }}>
+            <label style={{
+              display: 'block',
+              fontSize: '14px',
+              fontWeight: '500',
+              color: '#374151',
+              marginBottom: '12px'
+            }}>
+              I am a:
+            </label>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+              {[
+                { value: "customer", label: "Customer" },
+                { value: "chef", label: "Chef" },
+              ].map((type) => (
                 <button
+                  key={type.value}
                   type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                  style={{ right: 10, top: '50%', position: 'absolute', transform: 'translateY(-50%)' }}
+                  onClick={() => setUserType(type.value)}
+                  style={{
+                    padding: '12px 16px',
+                    fontSize: '14px',
+                    fontWeight: '500',
+                    borderRadius: '8px',
+                    border: '1px solid',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s',
+                    backgroundColor: userType === type.value ? '#f97316' : '#f9fafb',
+                    borderColor: userType === type.value ? '#f97316' : '#d1d5db',
+                    color: userType === type.value ? 'white' : '#374151'
+                  }}
+                  onMouseEnter={(e) => {
+                    if (userType !== type.value) {
+                      e.target.style.backgroundColor = '#f3f4f6';
+                      e.target.style.borderColor = '#f97316';
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (userType !== type.value) {
+                      e.target.style.backgroundColor = '#f9fafb';
+                      e.target.style.borderColor = '#d1d5db';
+                    }
+                  }}
                 >
-                  {showPassword ? '🙈' : '👁️'}
+                  {type.label}
                 </button>
-              </div>
+              ))}
             </div>
+          </div>
 
-            {/* Forgot Password */}
-            <div className="text-right">
-              <Link
-                to="/forgot-password"
-                className="text-sm text-primary-600 hover:text-primary-700"
+          {/* Email Input */}
+          <div style={{ marginBottom: '20px' }}>
+            <label style={{
+              display: 'block',
+              fontSize: '14px',
+              fontWeight: '500',
+              color: '#374151',
+              marginBottom: '8px'
+            }}>
+              Email Address
+            </label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Enter your email"
+              style={{
+                width: '100%',
+                padding: '12px 16px',
+                fontSize: '16px',
+                border: '1px solid #d1d5db',
+                borderRadius: '8px',
+                outline: 'none',
+                transition: 'border-color 0.2s',
+                boxSizing: 'border-box'
+              }}
+              onFocus={(e) => {
+                e.target.style.borderColor = '#f97316';
+                e.target.style.boxShadow = '0 0 0 3px rgba(249, 115, 22, 0.1)';
+              }}
+              onBlur={(e) => {
+                e.target.style.borderColor = '#d1d5db';
+                e.target.style.boxShadow = 'none';
+              }}
+              required
+            />
+          </div>
+
+          {/* Password Input */}
+          <div style={{ marginBottom: '20px' }}>
+            <label style={{
+              display: 'block',
+              fontSize: '14px',
+              fontWeight: '500',
+              color: '#374151',
+              marginBottom: '8px'
+            }}>
+              Password
+            </label>
+            <div style={{ position: 'relative' }}>
+              <input
+                type={showPassword ? "text" : "password"}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Enter your password"
+                style={{
+                  width: '100%',
+                  padding: '12px 16px',
+                  paddingRight: '48px',
+                  fontSize: '16px',
+                  border: '1px solid #d1d5db',
+                  borderRadius: '8px',
+                  outline: 'none',
+                  transition: 'border-color 0.2s',
+                  boxSizing: 'border-box'
+                }}
+                onFocus={(e) => {
+                  e.target.style.borderColor = '#f97316';
+                  e.target.style.boxShadow = '0 0 0 3px rgba(249, 115, 22, 0.1)';
+                }}
+                onBlur={(e) => {
+                  e.target.style.borderColor = '#d1d5db';
+                  e.target.style.boxShadow = 'none';
+                }}
+                required
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                style={{
+                  position: 'absolute',
+                  right: '12px',
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  background: 'none',
+                  border: 'none',
+                  cursor: 'pointer',
+                  fontSize: '16px',
+                  padding: '4px'
+                }}
               >
-                Forgot your password?
-              </Link>
+                {showPassword ? '🙈' : '👁️'}
+              </button>
             </div>
+          </div>
 
-            {/* Submit Button */}
-            <button
-              type="submit"
-              disabled={loading}
-              className={`w-full py-3 px-4 font-semibold rounded-lg transition-colors ${
-                loading
-                  ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                  : 'bg-primary-500 hover:bg-primary-600 text-white'
-              }`}
+          {/* Forgot Password */}
+          <div style={{ textAlign: 'right', marginBottom: '24px' }}>
+            <a
+              href="#"
+              onClick={(e) => { e.preventDefault(); console.log('Forgot password'); }}
+              style={{
+                fontSize: '14px',
+                color: '#f97316',
+                textDecoration: 'none'
+              }}
+              onMouseEnter={(e) => {
+                e.target.style.textDecoration = 'underline';
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.textDecoration = 'none';
+              }}
             >
-              {loading ? 'Signing In...' : 'Sign In'}
-            </button>
-          </form>
+              Forgot your password?
+            </a>
+          </div>
 
-          <div className="mt-6 text-center">
-            <p className="text-gray-600">
+          {/* Submit Button */}
+          <button
+            onClick={handleSubmit}
+            disabled={loading}
+            style={{
+              width: '100%',
+              padding: '14px 20px',
+              fontSize: '16px',
+              fontWeight: '600',
+              color: 'white',
+              backgroundColor: loading ? '#9ca3af' : '#f97316',
+              border: 'none',
+              borderRadius: '8px',
+              cursor: loading ? 'not-allowed' : 'pointer',
+              transition: 'background-color 0.2s',
+              boxShadow: loading ? 'none' : '0 2px 4px rgba(249, 115, 22, 0.3)',
+              marginBottom: '24px'
+            }}
+            onMouseEnter={(e) => {
+              if (!loading) {
+                e.target.style.backgroundColor = '#ea580c';
+              }
+            }}
+            onMouseLeave={(e) => {
+              if (!loading) {
+                e.target.style.backgroundColor = '#f97316';
+              }
+            }}
+          >
+            {loading ? (
+              <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <span style={{
+                  width: '16px',
+                  height: '16px',
+                  border: '2px solid #ffffff',
+                  borderTop: '2px solid transparent',
+                  borderRadius: '50%',
+                  marginRight: '8px',
+                  animation: 'spin 1s linear infinite'
+                }}></span>
+                Signing In...
+              </span>
+            ) : (
+              "Sign In"
+            )}
+          </button>
+
+          {/* Register Link */}
+          <div style={{ textAlign: 'center' }}>
+            <span style={{ color: '#6b7280', fontSize: '14px' }}>
               Don't have an account?{' '}
-              <Link
-                to="/register"
-                className="text-primary-600 hover:text-primary-700 font-medium"
+              <a
+                href="/auth/register"
+                onClick={(e) => {  console.log('Sign up'); }}
+                style={{
+                  color: '#f97316',
+                  textDecoration: 'none',
+                  fontWeight: '500'
+                }}
+                onMouseEnter={(e) => {
+                  e.target.style.textDecoration = 'underline';
+                }}
+                onMouseLeave={(e) => {
+                  e.target.style.textDecoration = 'none';
+                }}
               >
                 Sign up here
-              </Link>
-            </p>
+              </a>
+            </span>
           </div>
         </div>
 
         {/* Demo Credentials */}
-        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mt-6">
-          <h3 className="font-medium text-blue-800 mb-2">Demo Credentials</h3>
-          <div className="text-sm text-blue-700 space-y-1">
-            <p><strong>Customer:</strong> john.smith@email.com / customer123</p>
-            <p><strong>Chef:</strong> chef.ram@food.com / demo123</p>
-            <p><strong>Admin:</strong> admin@food.com / admin123</p>
+        <div style={{
+          backgroundColor: '#eff6ff',
+          border: '1px solid #bfdbfe',
+          borderRadius: '8px',
+          padding: '16px',
+          marginTop: '24px'
+        }}>
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            marginBottom: '12px'
+          }}>
+            <span style={{
+              fontSize: '16px',
+              marginRight: '8px'
+            }}>ℹ️</span>
+            <h3 style={{
+              fontSize: '14px',
+              fontWeight: '600',
+              color: '#1e40af',
+              margin: 0
+            }}>
+              Demo Credentials
+            </h3>
+          </div>
+          <div style={{
+            fontSize: '13px',
+            color: '#1e40af',
+            lineHeight: '1.5'
+          }}>
+            <div style={{ marginBottom: '4px' }}>
+              <strong>Customer:</strong> john.smith@email.com / customer123
+            </div>
+            <div style={{ marginBottom: '4px' }}>
+              <strong>Chef:</strong> chef.ram@food.com / demo123
+            </div>
+            <div>
+              <strong>Admin:</strong> admin@food.com / admin123
+            </div>
           </div>
         </div>
       </div>
+
+      <style>{`
+        @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+      `}</style>
     </div>
   );
-};
-
-export default Login;
+}

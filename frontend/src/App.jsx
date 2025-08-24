@@ -1,24 +1,25 @@
+
 import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 // Auth pages
-import Login from "./pages/auth/Login";
+import Login from "./pages/auth/Login.jsx";
 import Register from "./pages/auth/Register";
 
 // Admin pages
 import AdminDashboard from "./pages/admin/Dashboard";
-import AdminOrdersManagement from "./pages/admin/OrdersManagement"; // ✅ already imported
+import AdminOrdersManagement from "./pages/admin/OrdersManagement";
 import AdminMenuManagement from "./pages/admin/MenuManagement";
 import AdminUsersManagement from "./pages/admin/UsersManagement";
 
 // Chef pages
-import ChefDashboard from "./pages/chef/Dashboard";
 import ChefMenuUploadForm from "./pages/chef/MenuUploadForm";
 import ChefOrdersManagement from "./pages/chef/OrdersManagement";
 import ChefProfile from "./pages/chef/Profile";
 
 // User pages
-import Home from "./pages/user/Home";
+import Home from "./pages/user/Home";   // 👈 import Home separately
+import Home2 from "./pages/user/Home2";
 import Menu from "./pages/user/Menu";
 import Orders from "./pages/user/Orders";
 import CartPage from "./pages/user/CartPage";
@@ -31,7 +32,6 @@ import OrderTracking from "./pages/user/OrderTracking";
 // Other pages
 import About from "./pages/About";
 import Contact from "./pages/Contact";
-import Navbar from "./pages/Navbar";
 
 function App() {
   const [cartItems, setCartItems] = useState([]);
@@ -95,9 +95,6 @@ function App() {
 
   return (
     <Router>
-      {/* Navbar gets cartCount + logout */}
-      <Navbar cartCount={cartItems.length} onLogout={handleLogout} />
-
       <Routes>
         {/* ---------- Auth Routes ---------- */}
         <Route path="/auth/login" element={<Login />} />
@@ -105,18 +102,18 @@ function App() {
 
         {/* ---------- Admin Routes ---------- */}
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
-        <Route path="/admin/orders" element={<AdminOrdersManagement />} /> {/* ✅ added */}
+        <Route path="/admin/orders" element={<AdminOrdersManagement />} />
         <Route path="/admin/users" element={<AdminUsersManagement />} />
         <Route path="/admin/menu" element={<AdminMenuManagement />} />
 
         {/* ---------- Chef Routes ---------- */}
-        <Route path="/chef/dashboard" element={<ChefDashboard />} />
         <Route path="/chef/menu" element={<ChefMenuUploadForm />} />
         <Route path="/chef/orders" element={<ChefOrdersManagement />} />
         <Route path="/chef/profile" element={<ChefProfile />} />
 
         {/* ---------- User Routes ---------- */}
-        <Route path="/" element={<Home addToCart={addToCart} />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/home2" element={<Home2 addToCart={addToCart} />} />
         <Route path="/menu" element={<Menu />} />
         <Route
           path="/cart"
