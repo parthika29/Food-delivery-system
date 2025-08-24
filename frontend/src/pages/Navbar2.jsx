@@ -9,8 +9,6 @@ import { Link, useLocation } from "react-router-dom";
 
 const NAV_ITEMS = [
   { name: "Home", to: "/" },
-  { name: "Log In", to: "/auth/login" },
-  { name: "Sign Up", to: "/auth/register" },
   { name: "Chef", to: "/chef/dashboard" },
   { name: "Orders", to: "/orders" },
 ];
