@@ -1,267 +1,354 @@
-import React, { useState, useMemo } from "react";
-import Navbar from "../Navbar";
-import axios from "../../api/axiosInstance";
-import Navbar2 from "../Navbar2";
-
-const SAMPLE_MEALS = [
-  {
-    id: "1",
-    name: "Grilled Chicken Bowl",
-    description: "Herb-marinated chicken with quinoa and greens.",
-    category: "Healthy",
-    price: 1130,
-    rating: 4.5,
-    imageUrl:
-      "https://cdn.scrambledchefs.com/wp-content/uploads/2022/05/Greek-Grilled-Chicken-Salad-29.jpg",
-    isVeg: false,
-  },
-  {
-    id: "2",
-    name: "Paneer Tikka Wrap",
-    description: "Spiced paneer with veggies in a whole wheat wrap.",
-    category: "Vegetarian",
-    price: 745,
-    rating: 4.2,
-    imageUrl:
-      "https://www.chefkunalkapur.com/wp-content/uploads/2023/08/DSC04081-scaled.jpg?v=1692276994",
-    isVeg: true,
-  },
-  {
-    id: "3",
-    name: "Vegan Buddha Bowl",
-    description: "Roasted veggies, chickpeas, and tahini dressing.",
-    category: "Vegan",
-    price: 960,
-    rating: 4.8,
-    imageUrl:
-      "https://images.ctfassets.net/6ilzexksnph5/2fZi70BliFSO7oI7IZpZbW/a3f274476170d75bd84a141371ae04b6/Vegan_Buddha_Bowl.jpg?w=2000&h=1500&fm=webp&fit=thumb&q=100",
-    isVeg: true,
-  },
-  {
-    id: "4",
-    name: "Cheeseburger Deluxe",
-    description: "Juicy beef patty with cheddar and special sauce.",
-    category: "Fast Food",
-    price: 950,
-    rating: 4.0,
-    imageUrl:
-      "https://www.tysonfoodservice.com/adobe/dynamicmedia/deliver/dm-aid--92a52f1f-9d97-4118-93d0-a54d82e85a68/deluxe-cheeseburger-pickles-onion-pub-burger-137353-768x522.jpg?quality=75&preferwebp=true&width=1024",
-    isVeg: false,
-  },
-];
-
-const CATEGORIES = ["All", "Healthy", "Vegetarian", "Vegan", "Fast Food"];
-
-const userId = "testuser123";
-
-const addToCart = async (userId, meal) => {
-  try {
-    const res = await axios.post("/cart/add", {
-      userId,
-      item: {
-        quantity: 1,
-        productId: meal.id,
-        name: meal.name,
-        price: meal.price,
-        image: meal.imageUrl,
-      },
-    });
-    console.log("Add to cart clicked for:", meal.name);
-    alert("Item added to cart!");
-  } catch (err) {
-    console.error("Error adding to cart", err);
-  }
-};
-
-const sortOptions = [
-  { label: "Popularity", value: "popularity" },
-  { label: "Price: Low to High", value: "price_asc" },
-  { label: "Price: High to Low", value: "price_desc" },
-  { label: "Rating", value: "rating" },
-];
+import React, { useState } from 'react';
+import { Search, ShoppingBag, User, Home, Star, Bell, MapPin, Filter } from 'lucide-react';
 
 const Home2 = () => {
-  const [search, setSearch] = useState("");
-  const [activeCategory, setActiveCategory] = useState("All");
-  const [sortKey, setSortKey] = useState("popularity");
-  const [showVegOnly, setShowVegOnly] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState(0);
+  
+  // Dummy data - replace with your backend API calls
+  const categories = [
+    { id: 1, name: 'Pizza', emoji: '🍕' },
+    { id: 2, name: 'Burger', emoji: '🍔' },
+    { id: 3, name: 'Sushi', emoji: '🍣' },
+    { id: 4, name: 'Pasta', emoji: '🍝' },
+    { id: 5, name: 'Salad', emoji: '🥗' },
+    { id: 6, name: 'Dessert', emoji: '🍰' },
+    { id: 7, name: 'Coffee', emoji: '☕' },
+    { id: 8, name: 'Asian', emoji: '🥡' },
+  ];
 
-  const filteredMeals = useMemo(() => {
-    let list = SAMPLE_MEALS;
-
-    if (activeCategory !== "All") {
-      list = list.filter((m) => m.category === activeCategory);
+  const restaurants = [
+    {
+      id: 1,
+      name: 'Burger King',
+      emoji: '🍔',
+      rating: 4.5,
+      deliveryTime: '25-30 min',
+      deliveryFee: 'Free',
+      cuisine: 'Fast Food',
+      distance: '1.2 km'
+    },
+    {
+      id: 2,
+      name: 'Domino\'s Pizza',
+      emoji: '🍕',
+      rating: 4.2,
+      deliveryTime: '20-25 min',
+      deliveryFee: '$2',
+      cuisine: 'Pizza',
+      distance: '0.8 km'
+    },
+    {
+      id: 3,
+      name: 'Subway',
+      emoji: '🥪',
+      rating: 4.3,
+      deliveryTime: '15-20 min',
+      deliveryFee: 'Free',
+      cuisine: 'Healthy',
+      distance: '0.5 km'
+    },
+    {
+      id: 4,
+      name: 'Starbucks',
+      emoji: '☕',
+      rating: 4.4,
+      deliveryTime: '10-15 min',
+      deliveryFee: '$1.5',
+      cuisine: 'Coffee',
+      distance: '2.1 km'
+    },
+    {
+      id: 5,
+      name: 'Sushi Express',
+      emoji: '🍣',
+      rating: 4.6,
+      deliveryTime: '30-35 min',
+      deliveryFee: 'Free',
+      cuisine: 'Japanese',
+      distance: '1.8 km'
+    },
+    {
+      id: 6,
+      name: 'Taco Bell',
+      emoji: '🌮',
+      rating: 4.1,
+      deliveryTime: '20-25 min',
+      deliveryFee: '$2.5',
+      cuisine: 'Mexican',
+      distance: '1.5 km'
     }
-
-    if (showVegOnly) {
-      list = list.filter((m) => m.isVeg);
-    }
-
-    if (search.trim()) {
-      const q = search.toLowerCase();
-      list = list.filter(
-        (m) =>
-          m.name.toLowerCase().includes(q) ||
-          m.description.toLowerCase().includes(q)
-      );
-    }
-
-    switch (sortKey) {
-      case "price_asc":
-        list = [...list].sort((a, b) => a.price - b.price);
-        break;
-      case "price_desc":
-        list = [...list].sort((a, b) => b.price - a.price);
-        break;
-      case "rating":
-        list = [...list].sort((a, b) => b.rating - a.rating);
-        break;
-      default:
-        break;
-    }
-    return list;
-  }, [search, activeCategory, sortKey, showVegOnly]);
+  ];
 
   return (
-    <>
-      <Navbar/>
-      {/* <Navbar2/> */}
-      <div className="w-full bg-[#]">
-        <div className="max-w-[90%] mx-auto px-4 sm:px-6 lg:px-8 py-6 text-[#111827] ">
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
-            <div className="flex-1">
-              <h1 className="text-2xl font-semibold mb-1">Delicious Meals</h1>
-              <p className="text-sm text-gray-600">
-                Choose from a variety of fresh meals delivered to your door.
-              </p>
-            </div>
-            <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
-              <div className="flex flex-1">
-                <label htmlFor="search" className="sr-only">
-                  Search meals
-                </label>
-                <input
-                  id="search"
-                  type="text"
-                  placeholder="Search for meals or ingredients"
-                  aria-label="Search meals"
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                  className="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring focus:border-blue-300"
-                />
+    <div style={{
+      backgroundColor: '#f8fafc',
+      minHeight: '100vh',
+      width: '100%',
+      fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
+    }}>
+
+
+      {/* Main Content */}
+      <div style={{
+        width: '100%',
+        padding: '40px 60px'
+      }}>
+        {/* Hero Section */}
+        <div style={{
+          marginBottom: '60px',
+          textAlign: 'center'
+        }}>
+          <div>
+            <h2 style={{
+              fontSize: '64px',
+              fontWeight: 'bold',
+              color: '#1e293b',
+              margin: '0 0 24px 0',
+              lineHeight: '1.1'
+            }}>Hi! 👋</h2>
+            <p style={{
+              fontSize: '24px',
+              color: '#6b7280',
+              margin: '0 0 40px 0',
+              lineHeight: '1.6',
+              maxWidth: '800px',
+              marginLeft: 'auto',
+              marginRight: 'auto'
+            }}>What do you want to eat today? Discover the best restaurants and food delivery in your area.</p>
+            
+            {/* Search Bar */}
+            <div style={{
+              position: 'relative',
+              maxWidth: '600px',
+              margin: '0 auto'
+            }}>
+              <div style={{
+                position: 'absolute',
+                left: '20px',
+                top: '50%',
+                transform: 'translateY(-50%)',
+                color: '#9ca3af'
+              }}>
+                <Search size={24} />
               </div>
-              <div className="flex items-center gap-2 cursor-pointer">
-                <select
-                  aria-label="Sort meals"
-                  value={sortKey}
-                  onChange={(e) => setSortKey(e.target.value)}
-                  className="border rounded-lg px-3 py-2 focus:outline-none cursor-pointer"
-                >
-                  {sortOptions.map((o) => (
-                    <option key={o.value} value={o.value}>
-                      {o.label}
-                    </option>
-                  ))}
-                </select>
-                <div className="flex items-center gap-1">
-                  <input
-                    id="veg-only"
-                    type="checkbox"
-                    checked={showVegOnly}
-                    onChange={(e) => setShowVegOnly(e.target.checked)}
-                    className="h-4 w-4"
-                  />
-                  <label htmlFor="veg-only" className="text-sm">
-                    Veg Only
-                  </label>
-                </div>
-              </div>
+              <input
+                type="text"
+                placeholder="Search for food, restaurants, or cuisine..."
+                style={{
+                  width: '100%',
+                  padding: '20px 20px 20px 60px',
+                  backgroundColor: 'white',
+                  borderRadius: '16px',
+                  border: '2px solid #e5e7eb',
+                  outline: 'none',
+                  fontSize: '18px',
+                  color: '#374151',
+                  boxSizing: 'border-box',
+                  boxShadow: '0 8px 20px rgba(0,0,0,0.08)'
+                }}
+              />
+              <button style={{
+                position: 'absolute',
+                right: '12px',
+                top: '50%',
+                transform: 'translateY(-50%)',
+                backgroundColor: '#1e293b',
+                color: 'white',
+                border: 'none',
+                borderRadius: '12px',
+                padding: '12px 20px',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '6px',
+                fontSize: '16px',
+                fontWeight: '500'
+              }}>
+                <Filter size={18} />
+                Filter
+              </button>
             </div>
           </div>
+        </div>
 
-          <div className="flex overflow-x-auto gap-3 mb-6">
-            {CATEGORIES.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setActiveCategory(cat)}
-                className={`px-4 py-2 whitespace-nowrap rounded-full border ${
-                  activeCategory === cat
-                    ? "bg-[#243745] text-white border-black cursor-pointer"
-                    : "bg-white text-gray-700 border-gray-200 cursor-pointer "
-                } focus:ring-2 `}
-                aria-pressed={activeCategory === cat}
+        {/* Categories */}
+        <div style={{ marginBottom: '80px' }}>
+          <h3 style={{
+            fontSize: '32px',
+            fontWeight: '600',
+            color: '#1e293b',
+            margin: '0 0 40px 0',
+            textAlign: 'center'
+          }}>Browse Categories</h3>
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))',
+            gap: '24px',
+            width: '100%'
+          }}>
+            {categories.map((category, index) => (
+              <div
+                key={category.id}
+                onClick={() => setSelectedCategory(index)}
+                style={{
+                  backgroundColor: selectedCategory === index ? '#1e293b' : 'white',
+                  borderRadius: '20px',
+                  padding: '28px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: 'pointer',
+                  transition: 'all 0.3s',
+                  border: '2px solid',
+                  borderColor: selectedCategory === index ? '#1e293b' : '#e5e7eb',
+                  boxShadow: selectedCategory === index ? '0 8px 25px rgba(30, 41, 59, 0.15)' : '0 2px 8px rgba(0,0,0,0.05)',
+                  transform: selectedCategory === index ? 'translateY(-2px)' : 'translateY(0)'
+                }}
               >
-                {cat}
-              </button>
+                <div style={{
+                  fontSize: '40px',
+                  marginBottom: '12px'
+                }}>{category.emoji}</div>
+                <span style={{
+                  fontSize: '16px',
+                  fontWeight: '500',
+                  color: selectedCategory === index ? 'white' : '#374151'
+                }}>{category.name}</span>
+              </div>
             ))}
           </div>
+        </div>
 
-          {filteredMeals.length === 0 ? (
-            <div className="text-center py-16 text-gray-500">
-              No meals match your criteria.
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredMeals.map((meal) => (
-                <div
-                  key={meal.id}
-                  className="border rounded-2xl overflow-hidden shadow-sm flex flex-col"
-                >
-                  <div className="relative">
-                    <img
-                      src={meal.imageUrl}
-                      alt={meal.name}
-                      loading="lazy"
-                      className="w-full h-44 object-cover"
-                    />
-                    {meal.isVeg ? (
-                      <span className="absolute top-2 left-2 bg-green-600 text-white text-xs px-2 py-1 rounded-full">
-                        Veg
-                      </span>
-                    ) : (
-                      <span className="absolute top-2 left-2 bg-red-600 text-white text-xs px-2 py-1 rounded-full">
-                        Non-Veg
-                      </span>
-                    )}
+        {/* Restaurants */}
+        <div>
+          <div style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginBottom: '40px'
+          }}>
+            <h3 style={{
+              fontSize: '32px',
+              fontWeight: '600',
+              color: '#1e293b',
+              margin: '0',
+              textAlign: 'center'
+            }}>Popular Restaurants</h3>
+          </div>
+
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))',
+            gap: '28px',
+            maxWidth: '1400px',
+            margin: '0 auto'
+          }}>
+            {restaurants.map((restaurant) => (
+              <div key={restaurant.id} style={{
+                backgroundColor: 'white',
+                borderRadius: '24px',
+                padding: '32px',
+                boxShadow: '0 8px 20px rgba(0,0,0,0.08)',
+                border: '1px solid #f3f4f6',
+                transition: 'all 0.3s',
+                cursor: 'pointer'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'translateY(-4px)';
+                e.currentTarget.style.boxShadow = '0 8px 25px rgba(0,0,0,0.15)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.08)';
+              }}>
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'flex-start',
+                  gap: '20px',
+                  marginBottom: '20px'
+                }}>
+                  <div style={{
+                    width: '100px',
+                    height: '100px',
+                    backgroundColor: '#f8fafc',
+                    borderRadius: '20px',
+                    flexShrink: '0',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    border: '1px solid #e5e7eb'
+                  }}>
+                    <span style={{ fontSize: '48px' }}>{restaurant.emoji}</span>
                   </div>
-                  <div className="p-4 flex-1 flex flex-col">
-                    <div className="flex justify-between items-start">
-                      <h2 className="text-lg font-medium">{meal.name}</h2>
-                      <div className="flex items-center text-sm gap-1">
-                        <svg
-                          aria-hidden="true"
-                          className="w-4 h-4 text-yellow-500"
-                          fill="currentColor"
-                          viewBox="0 0 20 20"
-                        >
-                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.956a1 1 0 00.95.69h4.162c.969 0 1.371 1.24.588 1.81l-3.37 2.448a1 1 0 00-.363 1.118l1.287 3.956c.3.921-.755 1.688-1.54 1.118L10 13.347l-3.37 2.448c-.785.57-1.84-.197-1.54-1.118l1.287-3.956a1 1 0 00-.363-1.118L3.644 9.383c-.783-.57-.38-1.81.588-1.81h4.162a1 1 0 00.95-.69l1.286-3.956z" />
-                        </svg>
-                        <span>{meal.rating.toFixed(1)}</span>
+                  <div style={{ flex: '1' }}>
+                    <h4 style={{
+                      fontWeight: '600',
+                      color: '#1e293b',
+                      margin: '0 0 8px 0',
+                      fontSize: '22px'
+                    }}>{restaurant.name}</h4>
+                    <p style={{
+                      color: '#6b7280',
+                      margin: '0 0 12px 0',
+                      fontSize: '16px'
+                    }}>{restaurant.cuisine}</p>
+                    <div style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '16px',
+                      fontSize: '16px',
+                      color: '#6b7280'
+                    }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                        <Star size={16} style={{ fill: '#fbbf24', color: '#fbbf24' }} />
+                        <span>{restaurant.rating}</span>
                       </div>
-                    </div>
-                    <p className="text-sm text-gray-500 mt-1 flex-1">
-                      {meal.description}
-                    </p>
-                    <div className="mt-4 flex items-center justify-between">
-                      <div className="text-lg font-semibold">
-                        ₹{meal.price.toFixed(2)}
-                      </div>
-                      <button
-                        aria-label={`Add ${meal.name} to cart`}
-                        onClick={() => addToCart(userId, meal)}
-                        className="px-3 py-2 bg-[#243745] text-white rounded-lg text-sm hover:bg-[#F97316] transition cursor-pointer"
-                      >
-                        Add
-                      </button>
+                      <span>•</span>
+                      <span>{restaurant.deliveryTime}</span>
+                      <span>•</span>
+                      <span>{restaurant.distance}</span>
                     </div>
                   </div>
                 </div>
-              ))}
-            </div>
-          )}
+                <div style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center'
+                }}>
+                  <span style={{
+                    fontSize: '16px',
+                    fontWeight: '500',
+                    color: restaurant.deliveryFee === 'Free' ? '#10b981' : '#6b7280'
+                  }}>
+                    Delivery: {restaurant.deliveryFee}
+                  </span>
+                  <button style={{
+                    backgroundColor: '#1e293b',
+                    color: 'white',
+                    padding: '16px 28px',
+                    borderRadius: '12px',
+                    fontSize: '16px',
+                    fontWeight: '500',
+                    border: 'none',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = '#0f172a';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = '#1e293b';
+                  }}>
+                    Order Now
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
