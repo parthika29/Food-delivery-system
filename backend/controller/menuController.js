@@ -2,7 +2,7 @@ import Menu from '../models/Menu.js';
 
 export const getMenus = async (req, res) => {
   try {
-    const menus = await Menu.find().populate('chefId', 'name email');
+    const menus = await Menu.find().populate('chefRef', 'name email'); 
     res.json(menus);
   } catch (error) {
     res.status(500).json({ message: 'Server error' });
@@ -21,7 +21,7 @@ export const getMenuById = async (req, res) => {
 
 export const createMenu = async (req, res) => {
   try {
-    const menu = new Menu({ ...req.body, chefId: req.user._id });
+    const menu = new Menu({ ...req.body, chefRef: req.user._id }); 
     const createdMenu = await menu.save();
     res.status(201).json(createdMenu);
   } catch (error) {

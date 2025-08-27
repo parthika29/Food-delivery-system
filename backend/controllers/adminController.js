@@ -55,7 +55,7 @@ export const unblockUser = async (req, res) => {
 // Get all menus
 export const getAllMenus = async (req, res) => {
   try {
-    const menus = await Menu.find().populate('chefId', 'name email');
+    const menus = await Menu.find().populate('chefRef', 'name email'); // 
     res.json(menus);
   } catch (error) {
     res.status(500).json({ message: 'Server error' });
