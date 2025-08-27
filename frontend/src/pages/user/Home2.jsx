@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Search, ShoppingBag, User, Home, Star, Bell, MapPin, Filter } from 'lucide-react';
 
+
 const Home2 = () => {
   const [selectedCategory, setSelectedCategory] = useState(0);
   
@@ -80,6 +81,7 @@ const Home2 = () => {
   ];
 
   return (
+    <div>
     <div style={{
       backgroundColor: '#f8fafc',
       minHeight: '100vh',
@@ -348,6 +350,7 @@ const Home2 = () => {
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 };

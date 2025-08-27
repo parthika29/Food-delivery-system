@@ -1,6 +1,8 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [userType, setUserType] = useState("customer");
@@ -16,6 +18,7 @@ export default function Login() {
     setTimeout(() => {
       if (email && password) {
         console.log("Login successful");
+        navigate("/home2"); 
       } else {
         setError("Please fill in all fields");
       }

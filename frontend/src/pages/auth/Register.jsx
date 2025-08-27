@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-
+import { useNavigate } from "react-router-dom";
 export default function Register() {
+   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -44,9 +45,10 @@ export default function Register() {
 
     setLoading(true);
     
-    setTimeout(() => {
+   setTimeout(() => {
       if (formData.name && formData.email && formData.password) {
         console.log("Registration successful", formData);
+        navigate("/home2"); 
       } else {
         setError("Please fill in all required fields");
       }
