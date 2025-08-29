@@ -46,14 +46,21 @@ export default function Register() {
     setLoading(true);
     
    setTimeout(() => {
-      if (formData.name && formData.email && formData.password) {
-        console.log("Registration successful", formData);
-        navigate("/home2"); 
-      } else {
-        setError("Please fill in all required fields");
-      }
-      setLoading(false);
-    }, 1500);
+  if (formData.name && formData.email && formData.password) {
+    console.log("Registration successful", formData);
+
+    if (formData.userType === "customer") {
+      navigate("/home2");
+    } else if (formData.userType === "chef") {
+      navigate("/chef-dashboard");
+    }
+
+  } else {
+    setError("Please fill in all required fields");
+  }
+  setLoading(false);
+}, 1500);
+
   };
 
   return (

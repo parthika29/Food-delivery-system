@@ -1,7 +1,7 @@
 
 import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-
+import ChefDashboard from "./pages/ChefDashboard";
 // Auth pages
 import Login from "./pages/auth/Login.jsx";
 import Register from "./pages/auth/Register";
@@ -141,6 +141,7 @@ function App() {
         <Route path="/orders/:id/track" element={<LiveOrderTracking />} />
         <Route path="/track-order" element={<OrderTracking />} />
        <Route path="/order/:id/:itemId" element={<OrderPage />} />
+       <Route path="/chef-dashboard" element={<ChefDashboard />} />
         {/* ---------- Other Routes ---------- */}
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />

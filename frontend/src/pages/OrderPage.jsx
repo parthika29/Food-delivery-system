@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { restaurants } from "./RestaurantList";
 
 export default function OrderPage() {
   const { id, itemId } = useParams();
+  const navigate = useNavigate();
   const restaurant = restaurants.find((r) => r.id === parseInt(id));
   const item = restaurant?.menu.find((i) => i.id === parseInt(itemId));
 
@@ -28,11 +29,32 @@ export default function OrderPage() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    alert(`Order placed for ${item.name}!\nDelivery to: ${formData.address}, ${formData.city}`);
+    alert(
+      `Order placed for ${item.name}!\nDelivery to: ${formData.address}, ${formData.city}`
+    );
   };
 
   return (
     <div style={{ padding: "40px", background: "#f9fafb", minHeight: "100vh" }}>
+      {/* Back to Home Button */}
+      <button
+        onClick={() => navigate("/home2")}
+        style={{
+          backgroundColor: "black",
+          color: "white",
+          padding: "6px 12px",
+          border: "none",
+          borderRadius: "6px",
+          cursor: "pointer",
+          fontSize: "14px",
+          position: "absolute",
+          top: "20px",
+          left: "20px",
+        }}
+      >
+        ← Back to Home
+      </button>
+
       <h2 style={{ fontSize: "28px", fontWeight: "bold", marginBottom: "20px" }}>
         Delivery Address for {item.name}
       </h2>
