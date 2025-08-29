@@ -5,7 +5,10 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 // Auth pages
 import Login from "./pages/auth/Login.jsx";
 import Register from "./pages/auth/Register";
-
+import MenuItemDetail from "./pages/MenuItemDetail";
+import RestaurantList from "./pages/RestaurantList.jsx";
+import RestaurantMenu from "./pages/RestaurantMenu.jsx";
+import OrderPage from "./pages/OrderPage.jsx";
 // Admin pages
 import AdminDashboard from "./pages/admin/Dashboard";
 import AdminOrdersManagement from "./pages/admin/OrdersManagement";
@@ -23,6 +26,7 @@ import Home2 from "./pages/user/Home2";
 import Menu from "./pages/user/Menu";
 import Orders from "./pages/user/Orders";
 import CartPage from "./pages/user/CartPage";
+//import ProductDetailsPage from "./pages/user/ProductDetailsPage";
 import CheckOut from "./pages/user/CheckOut";
 import UserProfile from "./pages/user/Profile";
 import OrderConfirmation from "./pages/user/OrderConfirmation";
@@ -99,7 +103,9 @@ function App() {
         {/* ---------- Auth Routes ---------- */}
         <Route path="/auth/login" element={<Login />} />
         <Route path="/auth/register" element={<Register />} />
-
+   <Route path="/restaurant/:id/item/:itemId" element={<MenuItemDetail />} />
+        <Route path="/restaurants/:category" element={<RestaurantList />} />
+              <Route path="/restaurant/:id" element={<RestaurantMenu />} />
         {/* ---------- Admin Routes ---------- */}
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
         <Route path="/admin/orders" element={<AdminOrdersManagement />} />
@@ -127,13 +133,14 @@ function App() {
             />
           }
         />
+        {/* <Route path="/product/:id" element={<ProductDetailsPage />} /> */}
         <Route path="/orders" element={<Orders orders={orders} />} />
         <Route path="/checkout" element={<CheckOut />} />
         <Route path="/order-confirmation" element={<OrderConfirmation />} />
         <Route path="/profile" element={<UserProfile />} />
         <Route path="/orders/:id/track" element={<LiveOrderTracking />} />
         <Route path="/track-order" element={<OrderTracking />} />
-
+       <Route path="/order/:id/:itemId" element={<OrderPage />} />
         {/* ---------- Other Routes ---------- */}
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
